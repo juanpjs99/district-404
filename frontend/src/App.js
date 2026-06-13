@@ -6,7 +6,8 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
-
+  
+  
   return (
     <>
       <section id="center">
@@ -59,7 +60,7 @@ function App() {
             <use href="/icons.svg#social-icon"></use>
           </svg>
           <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
+          <p>super </p>  
           <ul>
             <li>
               <a href="https://github.com/vitejs/vite" target="_blank">
