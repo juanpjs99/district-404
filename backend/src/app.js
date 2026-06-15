@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const db = require("./config/database");
-
+const apiRoutes = require("./routes/apiRoutes")
 const app = express();
 
 app.use(cors());
@@ -12,24 +12,6 @@ app.get("/", (req, res) => {
         message: "Backend funcionando correctamente"
     });
 });
-
-app.get("/api/db-status", async (req, res) => {
-    try {
-        await db.execute("SELECT 1");
-
-        res.json({
-            success: true,
-            message: "Conexión a la base de datos exitosa"
-        });
-    } catch (error) {
-        console.error("Error al conectar con la base de datos:", error.message);
-
-        res.status(500).json({
-            success: false,
-            message: "Error al conectar con la base de datos",
-            error: error.message
-        });
-    }
-});
+app.use("/api", apiRoutes);
 
 module.exports = app;
