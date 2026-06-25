@@ -72,9 +72,9 @@ Uso:
 
 ---
 
-## Dark Text
+## Dark violet Text
 
-Hex: #0F172A
+Hex: #301947
 
 Uso:
 
