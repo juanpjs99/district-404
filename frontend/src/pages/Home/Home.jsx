@@ -37,7 +37,7 @@ const Home = () => {
       </nav>
 
       <main className="flex flex-col items-center justify-center py-20">
-        <h2 className="text-5xl font-bold mb-4">Bienvenido a District 404</h2>
+      <h2 className="text-5xl font-bold mb-4">¡Bienvenido a District 404!</h2>
         <p className="text-xl text-gray-400 mb-8">Plataforma colaborativa de proyectos</p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl">
