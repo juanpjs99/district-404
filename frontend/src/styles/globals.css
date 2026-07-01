@@ -1,7 +1,15 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Street Conflict';
+  src: url('/fonts/StreetConflict-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
-  --font-display: 'Space Grotesk', sans-serif;
+  --font-display: 'Street Conflict', sans-serif;
   --font-body: 'Exo', sans-serif;
 }
 

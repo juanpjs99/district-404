@@ -15,6 +15,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import logotype from '../../assets/log-type.png' // Logo de la crew
 
 /* ============================================
    ESTADO Y VARIABLES GLOBALES DEL COMPONENTE
@@ -43,7 +44,7 @@ const Home = () => {
       blogTitle: 'Visita Nuestro Blog',
       blogDescription: 'Artículos sobre desarrollo web, mejores prácticas y tendencias tecnológicas. Aprende de nuestro equipo y únete a la conversación.',
       ctaButton: 'Ir al Blog',
-      tagline: 'Where Code Meets Community',
+      tagline: 'Donde el Código cobra identidad',
       description: 'Un equipo de desarrolladores y creativos unidos por la innovación. El lugar donde las ideas se convierten en proyectos reales.',
       ctaBlog: 'Ver Blog',
       ctaAbout: 'Conócenos',
@@ -60,7 +61,7 @@ const Home = () => {
       blogTitle: 'Visit Our Blog',
       blogDescription: 'Articles about web development, best practices, and the latest tech trends. Learn from our team and join the conversation.',
       ctaButton: 'Go to Blog',
-      tagline: 'Where Code Meets Community',
+      tagline: 'Where Code Make Identity',
       description: 'A team of developers and creatives united by innovation. The place where ideas become real projects.',
       ctaBlog: 'View Blog',
       ctaAbout: 'Meet Us',
@@ -304,10 +305,10 @@ const Home = () => {
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="w-36 h-36 mx-auto mb-10 rounded-2xl bg-gradient-to-br from-[#3B82F6] to-[#A855F7] flex items-center justify-center shadow-[0_0_60px_rgba(59,130,246,0.4)]"
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="w-36 h-36 mx-auto mb-10 rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.4)]"
               >
-                <span className="text-5xl font-bold text-white tracking-tight" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>D404</span>
+                <img src={logotype} alt="District 404 Logo" className="w-full h-full object-contain" />
               </motion.div>
 
               {/* Título principal con gradiente en modo oscuro */}
@@ -315,8 +316,8 @@ const Home = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className={`text-6xl md:text-8xl font-bold mb-6 ${darkMode ? 'bg-gradient-to-r from-[#F8FAFC] via-[#DBEAFE] to-[#F8FAFC] bg-clip-text text-transparent' : 'text-[#301947]'}`}
-                style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                className={`text-6xl md:text-8xl font-bold mb-6 ${darkMode ? 'bg-linear-to-r from-[#F8FAFC] via-[#DBEAFE] to-[#F8FAFC] bg-clip-text text-transparent' : 'text-[#301947]'}`}
+                style={{ fontFamily: 'Bangers, cursive' }}
               >
                 District 404
               </motion.h1>
@@ -327,7 +328,7 @@ const Home = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className={`text-2xl md:text-3xl mb-6 font-medium ${darkMode ? 'text-[#F8FAFC]/90' : 'text-[#3B82F6]'}`}
-                style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                style={{ fontFamily: 'Bangers, cursive' }}
               >
                 {t.tagline}
               </motion.p>
@@ -412,7 +413,7 @@ const Home = () => {
                 animate={visibleSections['what-we-do'] ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6 }}
                 className="text-5xl md:text-6xl font-bold mb-6 text-white"
-                style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                style={{ fontFamily: 'Bangers, cursive' }}
               >
                 {t.whatWeDoTitle}
               </motion.h2>
@@ -422,7 +423,7 @@ const Home = () => {
                 initial={{ scaleX: 0 }}
                 animate={visibleSections['what-we-do'] ? { scaleX: 1 } : {}}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="w-24 h-1 bg-gradient-to-r from-[#3B82F6] to-[#A855F7] mx-auto mb-16 rounded-full"
+                className="w-24 h-1 bg-linear-to-r from-[#3B82F6] to-[#A855F7] mx-auto mb-16 rounded-full"
               />
 
               {/* Grid de cards con puntos destacados */}
@@ -436,7 +437,7 @@ const Home = () => {
                     className="relative group"
                   >
                     {/* Efecto glow en hover */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#3B82F6]/30 to-[#A855F7]/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-linear-to-br from-[#3B82F6]/30 to-[#A855F7]/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     
                     {/* Card principal con glassmorphism */}
                     <div
@@ -446,8 +447,8 @@ const Home = () => {
                       }}
                     >
                       {/* Número indicador con gradiente azul-púrpura */}
-                      <div className="w-14 h-14 mx-auto mb-6 rounded-xl bg-gradient-to-br from-[#3B82F6] to-[#A855F7] flex items-center justify-center shadow-[0_0_30px_rgba(59,130,246,0.4)]">
-                        <span className="text-2xl font-bold text-white" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{index + 1}</span>
+                      <div className="w-14 h-14 mx-auto mb-6 rounded-xl bg-linear-to-br from-[#3B82F6] to-[#A855F7] flex items-center justify-center shadow-[0_0_30px_rgba(59,130,246,0.4)]">
+                        <span className="text-2xl font-bold text-white" style={{ fontFamily: 'Bangers, cursive' }}>{index + 1}</span>
                       </div>
                       
                       {/* Texto del punto - violeta oscuro */}
@@ -487,7 +488,7 @@ const Home = () => {
                 initial={{ scale: 0 }}
                 animate={visibleSections['blog-section'] ? { scale: 1 } : {}}
                 transition={{ duration: 0.5, type: 'spring' }}
-                className="w-24 h-24 mx-auto mb-10 rounded-2xl bg-gradient-to-br from-[#FF7A00] to-[#E86B00] flex items-center justify-center shadow-[0_0_50px_rgba(255,122,0,0.4)]"
+                className="w-24 h-24 mx-auto mb-10 rounded-2xl bg-linear-to-br from-[#FF7A00] to-[#E86B00] flex items-center justify-center shadow-[0_0_50px_rgba(255,122,0,0.4)]"
               >
                 <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
@@ -500,7 +501,7 @@ const Home = () => {
                 animate={visibleSections['blog-section'] ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className={`text-5xl md:text-6xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-[#301947]'}`}
-                style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                style={{ fontFamily: 'Bangers, cursive' }}
               >
                 {t.blogTitle}
               </motion.h2>
