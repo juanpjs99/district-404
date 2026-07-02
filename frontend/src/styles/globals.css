@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'Street Conflict';
-  src: url('/fonts/StreetConflict-Regular.otf') format('opentype');
+  font-family: 'Arogan Street';
+  src: url('/fonts/AroganStreet.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @theme {
-  --font-display: 'Street Conflict', sans-serif;
+  --font-display: 'Arogan Street', sans-serif;
   --font-body: 'Exo', sans-serif;
 }
 

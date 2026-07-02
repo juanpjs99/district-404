@@ -15,7 +15,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import logotype from '../../assets/log-type.png' // Logo de la crew
+import logotype from '../../assets/Element-corona.png' // Logo de la crew
+import guySpray from '../../assets/guy-spray.png'
+import liquidWall from '../../assets/liquid-wall.png'
 
 /* ============================================
    ESTADO Y VARIABLES GLOBALES DEL COMPONENTE
@@ -45,7 +47,6 @@ const Home = () => {
       blogDescription: 'Artículos sobre desarrollo web, mejores prácticas y tendencias tecnológicas. Aprende de nuestro equipo y únete a la conversación.',
       ctaButton: 'Ir al Blog',
       tagline: 'Donde el Código cobra identidad',
-      description: 'Un equipo de desarrolladores y creativos unidos por la innovación. El lugar donde las ideas se convierten en proyectos reales.',
       ctaBlog: 'Ver Blog',
       ctaAbout: 'Conócenos',
       themeLabel: darkMode ? 'Claro' : 'Oscuro',
@@ -62,7 +63,6 @@ const Home = () => {
       blogDescription: 'Articles about web development, best practices, and the latest tech trends. Learn from our team and join the conversation.',
       ctaButton: 'Go to Blog',
       tagline: 'Where Code Make Identity',
-      description: 'A team of developers and creatives united by innovation. The place where ideas become real projects.',
       ctaBlog: 'View Blog',
       ctaAbout: 'Meet Us',
       themeLabel: darkMode ? 'Light' : 'Dark',
@@ -288,36 +288,72 @@ const Home = () => {
               SECCIÓN HERO - Presentación principal
               Incluye logo animado, título y CTAs
               ============================================ */}
-          <section className="min-h-screen flex flex-col items-center justify-center px-8 py-20 relative overflow-hidden">
+          <section className="min-h-screen flex items-center justify-center px-6 md:px-12 py-20 relative overflow-hidden">
             {/* Fondos con efectos de glow difuminado */}
             <div className="absolute inset-0 overflow-hidden">
               <div className={`absolute top-1/4 left-1/4 w-96 h-96 ${darkMode ? 'bg-[#A855F7]/10' : 'bg-[#A855F7]/15'} rounded-full blur-[128px]`} />
               <div className={`absolute bottom-1/4 right-1/4 w-96 h-96 ${darkMode ? 'bg-[#3B82F6]/10' : 'bg-[#3B82F6]/15'} rounded-full blur-[128px]`} />
             </div>
 
+            {/* Imagen decorativa - anclada a la izquierda, no afecta el layout del contenido */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 0.8, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="absolute left-0 top-1/2 -translate-y-1/2 w-[180px] md:w-[250px] lg:w-[320px] h-auto z-0 pointer-events-none"
+              style={{ filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.5)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.3))' }}
+            >
+              <img
+                src={guySpray}
+                alt=""
+                className="mt-50 w-full h-auto object-contain"
+              />
+            </motion.div>
+
+            {/* Imagen decorativa - anclada a la esquina superior derecha */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 0.8, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="absolute right-0 top-0 w-45 md:w-62.5 lg:w-[320px] h-auto z-0 pointer-events-none"
+              style={{ filter: 'drop-shadow(0 0 20px rgba(168, 85, 247, 0.5)) drop-shadow(0 0 40px rgba(168, 85, 247, 0.3))' }}
+            >
+              <img
+                src={liquidWall}
+                alt=""
+                className=" h-auto object-contain"
+              />
+            </motion.div>
+
+            {/* Contenido centrado - bloque unitario */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-              className="text-center max-w-4xl relative z-10"
+              transition={{ duration: 0.8 }}
+              className="flex flex-col items-center text-center w-full max-w-4xl mx-auto relative z-10 px-8 md:px-16 lg:px-24"
             >
-              {/* Logo de la crew con gradiente y glow */}
+              {/* Logo de la crew */}
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="w-36 h-36 mx-auto mb-10 rounded-2xl overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.4)]"
-              >
-                <img src={logotype} alt="District 404 Logo" className="w-full h-full object-contain" />
+                className="w-32 h-32 md:w-40 md:h-40 mb-6 flex items-center justify-center"
+>
+                <img
+                  src={logotype}
+                  alt="District 404 Logo"
+                  className="w-full h-full object-contain"
+                  style={{ filter: 'drop-shadow(0 0 10px rgba(59, 130, 246, 0.6))' }}
+                />
               </motion.div>
 
-              {/* Título principal con gradiente en modo oscuro */}
+              {/* Título principal */}
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className={`text-6xl md:text-8xl font-bold mb-6 ${darkMode ? 'bg-linear-to-r from-[#F8FAFC] via-[#DBEAFE] to-[#F8FAFC] bg-clip-text text-transparent' : 'text-[#301947]'}`}
-                style={{ fontFamily: 'Bangers, cursive' }}
+                className={`text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 md:mb-6 ${darkMode ? 'bg-linear-to-r from-[#F8FAFC] via-[#DBEAFE] to-[#F8FAFC] bg-clip-text text-transparent' : 'text-[#301947]'}`}
+                style={{ fontFamily: 'var(--font-display)', textShadow: '0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.4), 0 0 60px rgba(59, 130, 246, 0.2)' }}
               >
                 District 404
               </motion.h1>
@@ -326,20 +362,20 @@ const Home = () => {
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className={`text-2xl md:text-3xl mb-6 font-medium ${darkMode ? 'text-[#F8FAFC]/90' : 'text-[#3B82F6]'}`}
-                style={{ fontFamily: 'Bangers, cursive' }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className={`text-xl md:text-2xl lg:text-3xl mb-4 md:mb-6 font-medium ${darkMode ? 'text-[#F8FAFC]/90' : 'text-[#3B82F6]'}`}
+                style={{ fontFamily: 'var(--font-display)', textShadow: '0 0 15px rgba(59, 130, 246, 0.5), 0 0 30px rgba(59, 130, 246, 0.3)' }}
               >
                 {t.tagline}
               </motion.p>
 
-              {/* Descripción de la crew */}
+              {/* Descripción */}
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                className={`text-lg max-w-2xl mx-auto leading-relaxed mb-12 ${darkMode ? 'text-[#F8FAFC]/60' : 'text-[#64748B]'}`}
-                style={{ fontFamily: 'Exo, sans-serif' }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className={`text-base md:text-lg max-w-2xl mb-8 md:mb-10 leading-relaxed ${darkMode ? 'text-[#F8FAFC]/60' : 'text-[#64748B]'}`}
+                style={{ fontFamily: 'Exo, sans-serif', textShadow: '0 0 10px rgba(59, 130, 246, 0.3), 0 0 20px rgba(59, 130, 246, 0.15)' }}
               >
                 {t.description}
               </motion.p>
@@ -348,18 +384,19 @@ const Home = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.7 }}
-                className="flex gap-6 justify-center"
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="flex flex-col sm:flex-row gap-4"
               >
                 <Link
                   to="/blog"
-                  className="px-8 py-3.5 bg-[#FF7A00] text-white font-semibold rounded-lg hover:bg-[#E86B00] transition-all duration-200 shadow-[0_0_20px_rgba(255,122,0,0.3)] hover:shadow-[0_0_30px_rgba(255,122,0,0.5)]"
+                  className="px-8 py-3.5 bg-[#FF7A00] text-white font-semibold rounded-lg hover:bg-[#E86B00] transition-all duration-200 shadow-[0_0_20px_rgba(255,122,0,0.4),0_0_40px_rgba(255,122,0,0.2),0_0_60px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(255,122,0,0.6),0_0_50px_rgba(255,122,0,0.3),0_0_80px_rgba(59,130,246,0.3)]"
                 >
                   {t.ctaBlog}
                 </Link>
                 <Link
                   to="/about_us"
-                  className={`px-8 py-3.5 font-semibold rounded-lg transition-all duration-200 ${darkMode ? 'bg-white/10 text-white hover:bg-white/20 border border-white/10' : 'bg-[#3B82F6]/10 text-[#301947] hover:bg-[#3B82F6]/20 border border-[#3B82F6]/20'}`}
+                  className={`px-8 py-3.5 font-semibold rounded-lg transition-all duration-200 ${darkMode ? 'bg-white/10 text-white hover:bg-white/20 border border-white/10' : 'bg-[#3B82F6]/10 text-white hover:bg-[#3B82F6]/20 border border-[#3B82F6]/30'}`}
+                  style={{ boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.15)' }}
                 >
                   {t.ctaAbout}
                 </Link>
@@ -371,13 +408,14 @@ const Home = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1 }}
-              className="absolute bottom-10"
+              className="absolute bottom-8 left-1/2 -translate-x-1/2"
             >
               <div className={`w-6 h-10 rounded-full border-2 flex items-start justify-center p-2 ${darkMode ? 'border-[#F8FAFC]/30' : 'border-[#301947]/30'}`}>
                 <motion.div
                   animate={{ y: [0, 12, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
                   className="w-1 h-2 bg-[#3B82F6] rounded-full"
+                  style={{ boxShadow: '0 0 8px rgba(59, 130, 246, 0.8), 0 0 16px rgba(59, 130, 246, 0.5)' }}
                 />
               </div>
             </motion.div>
@@ -412,8 +450,8 @@ const Home = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={visibleSections['what-we-do'] ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6 }}
-                className="text-5xl md:text-6xl font-bold mb-6 text-white"
-                style={{ fontFamily: 'Bangers, cursive' }}
+                className="text-5xl md:text-6xl font-bold mb-6 bg-linear-to-r from-[#3B82F6] via-[#A855F7] to-[#3B82F6] bg-clip-text text-transparent"
+                style={{ fontFamily: 'var(--font-display)' }}
               >
                 {t.whatWeDoTitle}
               </motion.h2>
@@ -448,7 +486,7 @@ const Home = () => {
                     >
                       {/* Número indicador con gradiente azul-púrpura */}
                       <div className="w-14 h-14 mx-auto mb-6 rounded-xl bg-linear-to-br from-[#3B82F6] to-[#A855F7] flex items-center justify-center shadow-[0_0_30px_rgba(59,130,246,0.4)]">
-                        <span className="text-2xl font-bold text-white" style={{ fontFamily: 'Bangers, cursive' }}>{index + 1}</span>
+                        <span className="text-2xl font-bold text-white" style={{ fontFamily: 'var(--font-display)' }}>{index + 1}</span>
                       </div>
                       
                       {/* Texto del punto - violeta oscuro */}
@@ -501,7 +539,7 @@ const Home = () => {
                 animate={visibleSections['blog-section'] ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className={`text-5xl md:text-6xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-[#301947]'}`}
-                style={{ fontFamily: 'Bangers, cursive' }}
+                style={{ fontFamily: 'var(--font-display)' }}
               >
                 {t.blogTitle}
               </motion.h2>
