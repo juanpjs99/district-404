@@ -3,7 +3,7 @@
  * Monta los providers globales: BrowserRouter (rutas), QueryClientProvider (cache de datos)
  * y AuthProvider (estado de autenticación).
  */
-import 'tailwindcss';
+import './styles/global.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';

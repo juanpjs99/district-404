@@ -1,6 +1,8 @@
+//Test de Conexion base de datos railway 
+
 require("dotenv").config({ path: "./backend/.env" });
 
-const pool = require("./backend/app/database/base");
+const pool = require("./backend/database/base");
 
 async function testConnection() {
     try {
