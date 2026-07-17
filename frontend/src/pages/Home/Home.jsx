@@ -387,8 +387,8 @@ const Home = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={visibleSections['what-we-do'] ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6 }}
-                className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#3B82F6] via-[#A855F7] to-[#3B82F6] bg-clip-text text-transparent"
-                style={{ fontFamily: 'var(--font-display)' }}
+                className="text-5xl md:text-6xl font-bold mb-6"
+                style={{ fontFamily: 'var(--font-display)', color: '#442B76', textShadow: '0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(255,255,255,0.4)' }}
               >
                 {t.whatWeDoTitle}
               </motion.h2>
@@ -397,7 +397,8 @@ const Home = () => {
                 initial={{ scaleX: 0 }}
                 animate={visibleSections['what-we-do'] ? { scaleX: 1 } : {}}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="w-24 h-1 bg-gradient-to-r from-[#3B82F6] to-[#A855F7] mx-auto mb-16 rounded-full"
+                className="w-24 h-1 mx-auto mb-16 rounded-full"
+                style={{ backgroundColor: '#442B76', boxShadow: '0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(255,255,255,0.4)' }}
               />
 
               <div className="grid md:grid-cols-3 gap-8">
