@@ -1,9 +1,10 @@
 /**
+/**
  * Punto de entrada de la aplicación React.
  * Monta los providers globales: BrowserRouter (rutas), QueryClientProvider (cache de datos)
  * y AuthProvider (estado de autenticación).
  */
-import './styles/globals.css';
+import './styles/global.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
