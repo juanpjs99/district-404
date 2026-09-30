@@ -1,10 +1,11 @@
 import { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Navigate, Routes, Route } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
+import AdminRoute from './AdminRoute';
 
 const Home = lazy(() => import('../pages/Home/Home'));
 const Login = lazy(() => import('../pages/Login/Login'));
-const Register = lazy(() => import('../pages/Register/Register'));
+const AdminDashboard = lazy(() => import('../pages/Admin/AdminDashboard'));
 const Blog = lazy(() => import('../pages/blog/blog'));
 const Contact = lazy(() => import('../pages/contact/contact'));
 const AboutUs = lazy(() => import('../pages/about_us/about_us'));
@@ -15,7 +16,15 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Navigate to="/login" replace />} />
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
         <Route path="/blog" element={<Blog />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<AboutUs />} />

@@ -22,14 +22,13 @@ const Home = () => {
     return saved ? saved : 'es';
   });
   
-  // Contenido multiidioma actualizado con enlaces y botones de autenticación
+  // Contenido multiidioma de la landing pública.
   const content = {
     es: {
       navBlog: 'Blog',
       navContact: 'Contacto',
       navAbout: 'Sobre Nosotros',
       login: 'Ingresar',
-      register: 'Registrarse',
       whatWeDoTitle: '¿Qué hacemos?',
       blogTitle: 'Visita Nuestro Blog',
       blogDescription: 'Artículos sobre desarrollo web, mejores prácticas y tendencias tecnológicas. Aprende de nuestro equipo y únete a la conversación.',
@@ -51,7 +50,6 @@ const Home = () => {
       navContact: 'Contact',
       navAbout: 'About Us',
       login: 'Log In',
-      register: 'Sign Up',
       whatWeDoTitle: 'What Do We Do?',
       blogTitle: 'Visit Our Blog',
       blogDescription: 'Articles about web development, best practices, and the latest tech trends. Learn from our team and join the conversation.',
@@ -110,7 +108,7 @@ const Home = () => {
   const navLinks = [
     { name: t.navBlog, path: '/blog' },
     { name: t.navContact, path: '/contact' },
-    { name: t.navAbout, path: '/about_us' },
+    { name: t.navAbout, path: '/about' },
   ];
 
   const theme = {
@@ -231,7 +229,7 @@ const Home = () => {
         {/* CONTENIDO PRINCIPAL */}
         <main className={`flex-1 relative transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
 
-          {/* BOTONES DE AUTENTICACIÓN (Ingresar / Registrarse) */}
+          {/* Acceso exclusivo para administradores */}
           <div className="absolute top-6 right-6 md:right-12 z-50 flex items-center gap-4 md:gap-6">
             <Link
               to="/login"
@@ -240,12 +238,6 @@ const Home = () => {
               }`}
             >
               {t.login}
-            </Link>
-            <Link
-              to="/register"
-              className="px-5 py-2 md:px-6 md:py-2.5 bg-gradient-to-r from-[#3B82F6] to-[#A855F7] text-white font-medium rounded-lg hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-300 hover:-translate-y-1"
-            >
-              {t.register}
             </Link>
           </div>
 
@@ -339,7 +331,7 @@ const Home = () => {
                   {t.ctaBlog}
                 </Link>
                 <Link
-                  to="/about_us"
+                  to="/about"
                   className={`px-8 py-3.5 font-semibold rounded-lg transition-all duration-200 ${darkMode ? 'bg-white/10 text-white hover:bg-white/20 border border-white/10' : 'bg-[#3B82F6]/10 text-white hover:bg-[#3B82F6]/20 border border-[#3B82F6]/30'}`}
                   style={{ boxShadow: '0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.15)' }}
                 >

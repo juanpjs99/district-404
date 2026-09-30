@@ -4,9 +4,9 @@
  */
 const express = require('express');
 const cors = require('cors');
+const { validateEnv } = require('./config/env');
 const apiRoutes = require('./routes/apiRoutes');
 const errorMiddleware = require('./middlewares/errorMiddleware');
-const { validateEnv } = require('./config/env');
 
 validateEnv();
 

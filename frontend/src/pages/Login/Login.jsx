@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/useAuth';
 
 const Login = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { user, loading, login, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('theme');
@@ -19,28 +26,20 @@ const Login = () => {
     es: { 
       themeLabel: darkMode ? 'Claro' : 'Oscuro', 
       langLabel: 'ES', 
-      loginTitle: 'Ingresar', 
-      registerTitle: 'Crear Cuenta',
-      buttonLogin: 'Entrar',
-      buttonRegister: 'Registrarse',
-      toggleLogin: '¿No tienes cuenta?',
-      toggleRegister: '¿Ya tienes cuenta?',
-      toggleActionLogin: 'Regístrate',
-      toggleActionRegister: 'Inicia sesión',
-      backToHome: 'Volver al inicio'
+       loginTitle: 'Ingresar', 
+        buttonLogin: 'Entrar',
+       backToHome: 'Volver al inicio',
+       adminOnly: 'Esta cuenta no tiene acceso administrativo.',
+       loginError: 'No se pudo iniciar sesión. Verifica tus credenciales.'
     },
     en: { 
       themeLabel: darkMode ? 'Light' : 'Dark', 
       langLabel: 'EN', 
-      loginTitle: 'Log In', 
-      registerTitle: 'Create Account',
-      buttonLogin: 'Login',
-      buttonRegister: 'Register',
-      toggleLogin: 'Don\'t have an account?',
-      toggleRegister: 'Already have an account?',
-      toggleActionLogin: 'Sign up',
-      toggleActionRegister: 'Log in',
-      backToHome: 'Back to Home'
+       loginTitle: 'Log In', 
+        buttonLogin: 'Login',
+       backToHome: 'Back to Home',
+       adminOnly: 'This account does not have administrator access.',
+       loginError: 'Unable to log in. Check your credentials.'
     }
   }[language];
 
@@ -51,6 +50,41 @@ const Login = () => {
   useEffect(() => {
     localStorage.setItem('language', language);
   }, [language]);
+
+  useEffect(() => {
+    if (!loading && user?.role === 'admin') {
+      navigate('/admin', { replace: true });
+    }
+  }, [loading, navigate, user]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError('');
+
+    if (!userName.trim() || !password) {
+      setError(t.loginError);
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await login(userName.trim(), password);
+
+      if (response.user?.role !== 'admin') {
+        logout();
+        setError(t.adminOnly);
+        return;
+      }
+
+      const destination = location.state?.from || '/admin';
+      navigate(destination, { replace: true });
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || t.loginError);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const theme = {
     bg: darkMode ? 'bg-[#0D0A14]' : 'bg-[#F8FAFC]',
@@ -110,27 +144,44 @@ const Login = () => {
 
         <div className="bg-[#1a1b26]/60 backdrop-blur-md border border-purple-500/20 shadow-[0_0_50px_rgba(79,70,229,0.15)] rounded-2xl p-6 md:p-8 w-full max-w-sm md:max-w-md mx-4">
            <h2 className="text-2xl font-bold text-white text-center mb-6">
-             {isLogin ? t.loginTitle : t.registerTitle}
+             {t.loginTitle}
            </h2>
            
-           <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-             {!isLogin && (
-               <input type="text" placeholder="Nombre" className="w-full bg-[#1e2030]/50 border border-slate-700/50 text-white rounded-lg px-4 py-3 outline-none focus:border-blue-500 transition-all text-sm" />
-             )}
-             <input type="email" placeholder="Email" className="w-full bg-[#1e2030]/50 border border-slate-700/50 text-white rounded-lg px-4 py-3 outline-none focus:border-blue-500 transition-all text-sm" />
-             <input type="password" placeholder="Contraseña" className="w-full bg-[#1e2030]/50 border border-slate-700/50 text-white rounded-lg px-4 py-3 outline-none focus:border-blue-500 transition-all text-sm" />
-             
-             <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg py-3 transition-all text-sm">
-               {isLogin ? t.buttonLogin : t.buttonRegister}
-             </button>
-           </form>
-
-           <p className="text-xs text-slate-400 text-center mt-5">
-             {isLogin ? t.toggleLogin : t.toggleRegister} {' '}
-             <button onClick={() => setIsLogin(!isLogin)} className="text-blue-500 hover:underline cursor-pointer">
-               {isLogin ? t.toggleActionLogin : t.toggleActionRegister}
-             </button>
-           </p>
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              <label className="block text-left text-sm text-white/70">
+                Usuario
+                <input
+                  type="text"
+                  value={userName}
+                  onChange={(event) => setUserName(event.target.value)}
+                  autoComplete="username"
+                  className="mt-2 w-full rounded-lg border border-slate-700/50 bg-[#1e2030]/50 px-4 py-3 text-white outline-none transition-all focus:border-blue-500"
+                />
+              </label>
+              <label className="block text-left text-sm text-white/70">
+                Contraseña
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  autoComplete="current-password"
+                  className="mt-2 w-full rounded-lg border border-slate-700/50 bg-[#1e2030]/50 px-4 py-3 text-white outline-none transition-all focus:border-blue-500"
+                />
+              </label>
+              {error && (
+                <p role="alert" className="rounded-lg border border-red-400/30 bg-red-500/10 px-3 py-2 text-sm text-red-200">
+                  {error}
+                </p>
+              )}
+              
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full rounded-lg bg-blue-600 py-3 text-sm font-medium text-white transition-all hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isSubmitting ? 'Ingresando...' : t.buttonLogin}
+              </button>
+            </form>
         </div>
       </main>
     </div>
