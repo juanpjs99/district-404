@@ -15,20 +15,50 @@ const ProfileModel = {
     return rows[0];
   },
 
-  create: async (profileData) => {
-    const { userID, biography, profession, skills, githubUrl, linkedinUrl } = profileData;
-    const [result] = await db.query(
-      'INSERT INTO Profiles (userID, biography, profession, skills, githubUrl, linkedinUrl) VALUES (?, ?, ?, ?, ?, ?)',
-      [userID, biography, profession, skills, githubUrl, linkedinUrl]
+  findPublicByUsername: async (username) => {
+    const [rows] = await db.query(
+      `SELECT u.ID AS userId, u.UserName AS username, p.ID AS profileId,
+        p.biography, p.profession, p.skills, p.githubUrl, p.linkedinUrl,
+        p.avatarUrl, p.location, pe.firstName, pe.firstSurname
+       FROM Users u
+       JOIN roles r ON r.id = u.role_id AND r.name = 'member'
+       JOIN Person pe ON pe.ID = u.personID
+       JOIN Profiles p ON p.userID = u.ID
+       WHERE u.UserName = ? AND u.status = 'active'`,
+      [username]
+    );
+    return rows[0];
+  },
+
+  findAllMembers: async () => {
+    const [rows] = await db.query(
+      `SELECT u.ID AS userId, u.UserName AS username, p.ID AS profileId,
+        p.biography, p.profession, p.skills, p.avatarUrl, p.location,
+        pe.firstName, pe.firstSurname
+       FROM Users u
+       JOIN roles r ON r.id = u.role_id AND r.name = 'member'
+       JOIN Person pe ON pe.ID = u.personID
+       JOIN Profiles p ON p.userID = u.ID
+       WHERE u.status = 'active'
+       ORDER BY pe.firstName, pe.firstSurname`
+    );
+    return rows;
+  },
+
+  create: async (profileData, executor = db) => {
+    const { userID, biography, profession, skills, githubUrl, linkedinUrl, avatarUrl, location } = profileData;
+    const [result] = await executor.query(
+      'INSERT INTO Profiles (userID, biography, profession, skills, githubUrl, linkedinUrl, avatarUrl, location) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [userID, biography, profession, skills, githubUrl, linkedinUrl, avatarUrl, location]
     );
     return result.insertId;
   },
 
-  update: async (id, profileData) => {
-    const { biography, profession, skills, githubUrl, linkedinUrl } = profileData;
-    await db.query(
-      'UPDATE Profiles SET biography = ?, profession = ?, skills = ?, githubUrl = ?, linkedinUrl = ? WHERE ID = ?',
-      [biography, profession, skills, githubUrl, linkedinUrl, id]
+  update: async (id, profileData, executor = db) => {
+    const { biography, profession, skills, githubUrl, linkedinUrl, avatarUrl, location } = profileData;
+    await executor.query(
+      'UPDATE Profiles SET biography = ?, profession = ?, skills = ?, githubUrl = ?, linkedinUrl = ?, avatarUrl = ?, location = ? WHERE ID = ?',
+      [biography, profession, skills, githubUrl, linkedinUrl, avatarUrl, location, id]
     );
   },
 

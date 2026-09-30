@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Arogan Street';
+  src: url('/fonts/AroganStreet.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-display: 'Arogan Street', sans-serif;
+  --font-body: 'Exo', 'Trebuchet MS', sans-serif;
+}
+
+:root {
+  font-family: var(--font-body);
+  color: #f8fafc;
+  background: #0d0a14;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #0d0a14;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+button,
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: #3b82f6;
+  color: white;
+}

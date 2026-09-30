@@ -4,7 +4,7 @@
  */
 const express = require('express');
 const cors = require('cors');
-const { validateEnv } = require('./config/env');
+const { env, validateEnv } = require('./config/env');
 const apiRoutes = require('./routes/apiRoutes');
 const errorMiddleware = require('./middlewares/errorMiddleware');
 
@@ -12,7 +12,7 @@ validateEnv();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: env.FRONTEND_ORIGIN }));
 app.use(express.json());
 
 app.get('/', (req, res) => {

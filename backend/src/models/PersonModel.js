@@ -20,18 +20,18 @@ const PersonModel = {
     return rows[0];
   },
 
-  create: async (personData) => {
+  create: async (personData, executor = db) => {
     const { firstName, middleName, firstSurname, secondLastName, IDCard, cellular, phone, email } = personData;
-    const [result] = await db.query(
+    const [result] = await executor.query(
       'INSERT INTO Person (firstName, middleName, firstSurname, secondLastName, IDCard, cellular, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
       [firstName, middleName, firstSurname, secondLastName, IDCard, cellular, phone, email]
     );
     return result.insertId;
   },
 
-  update: async (id, personData) => {
+  update: async (id, personData, executor = db) => {
     const { firstName, middleName, firstSurname, secondLastName, IDCard, cellular, phone, email } = personData;
-    await db.query(
+    await executor.query(
       'UPDATE Person SET firstName = ?, middleName = ?, firstSurname = ?, secondLastName = ?, IDCard = ?, cellular = ?, phone = ?, email = ? WHERE ID = ?',
       [firstName, middleName, firstSurname, secondLastName, IDCard, cellular, phone, email, id]
     );

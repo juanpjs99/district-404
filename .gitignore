@@ -1,16 +1,32 @@
-# React
-frontend/node_modules
-frontend/dist
+# Dependencies
+node_modules/
 
-# Python
-backend/venv
-backend/__pycache__
+# Build files
+dist/
+build/
 
-# Environment
+# Environment variables
 .env
+backend/.env
+frontend/.env
 
 # VS Code
-.vscode
+.vscode/
 
 # Logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos temporales
+*.tmp
+*.temp
+

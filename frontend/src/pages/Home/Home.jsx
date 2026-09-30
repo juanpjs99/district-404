@@ -5,22 +5,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import logotype from '../../assets/Element-corona.png'; 
 import guySpray from '../../assets/guy-spray.png';
 import liquidWall from '../../assets/liquid-wall.png';
 
 const Home = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  
-  const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem('theme');
-    return saved ? saved === 'dark' : true;
-  });
-  
-  const [language, setLanguage] = useState(() => {
-    const saved = localStorage.getItem('language');
-    return saved ? saved : 'es';
-  });
+  const { user, logout } = useAuth();
+  const { darkMode, language, toggleTheme, toggleLanguage } = useTheme();
   
   // Contenido multiidioma de la landing pública.
   const content = {
@@ -29,6 +23,7 @@ const Home = () => {
       navContact: 'Contacto',
       navAbout: 'Sobre Nosotros',
       login: 'Ingresar',
+      register: 'Registrarse',
       whatWeDoTitle: '¿Qué hacemos?',
       blogTitle: 'Visita Nuestro Blog',
       blogDescription: 'Artículos sobre desarrollo web, mejores prácticas y tendencias tecnológicas. Aprende de nuestro equipo y únete a la conversación.',
@@ -50,6 +45,7 @@ const Home = () => {
       navContact: 'Contact',
       navAbout: 'About Us',
       login: 'Log In',
+      register: 'Sign Up',
       whatWeDoTitle: 'What Do We Do?',
       blogTitle: 'Visit Our Blog',
       blogDescription: 'Articles about web development, best practices, and the latest tech trends. Learn from our team and join the conversation.',
@@ -73,14 +69,6 @@ const Home = () => {
   const [visibleSections, setVisibleSections] = useState({});
   const whatWeDoRef = useRef(null);
   const blogRef = useRef(null);
-
-  useEffect(() => {
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-  }, [darkMode]);
-
-  useEffect(() => {
-    localStorage.setItem('language', language);
-  }, [language]);
 
   useEffect(() => {
     const observerOptions = {
@@ -177,7 +165,7 @@ const Home = () => {
           {/* CONTROLES DE TEMA E IDIOMA */}
           <div className="absolute bottom-6 left-0 right-0 flex flex-col items-center gap-3">
             <button
-              onClick={() => setDarkMode(!darkMode)}
+              onClick={toggleTheme}
               className={`flex items-center justify-center transition-all duration-200 ${
                 sidebarOpen ? 'w-[calc(100%-2rem)] px-4 py-3 rounded-xl gap-3' : 'w-12 h-12 rounded-xl'
               } ${darkMode ? 'bg-[#1a1033] hover:bg-[#2a1852]' : 'bg-[#DBEAFE] hover:bg-[#BFDBFE]'}`}
@@ -204,7 +192,7 @@ const Home = () => {
             </button>
 
             <button
-              onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
+              onClick={toggleLanguage}
               className={`flex items-center justify-center transition-all duration-200 ${
                 sidebarOpen ? 'w-[calc(100%-2rem)] px-4 py-3 rounded-xl gap-3' : 'w-12 h-12 rounded-xl'
               } ${darkMode ? 'bg-[#1a1033] hover:bg-[#2a1852]' : 'bg-[#DBEAFE] hover:bg-[#BFDBFE]'}`}
@@ -229,17 +217,22 @@ const Home = () => {
         {/* CONTENIDO PRINCIPAL */}
         <main className={`flex-1 relative transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
 
-          {/* Acceso exclusivo para administradores */}
+          {/* BOTONES DE AUTENTICACIÓN */}
           <div className="absolute top-6 right-6 md:right-12 z-50 flex items-center gap-4 md:gap-6">
-            <Link
-              to="/login"
-              className={`font-medium transition-colors duration-200 ${
-                darkMode ? 'text-[#F8FAFC] hover:text-[#FF7A00]' : 'text-[#301947] hover:text-[#FF7A00]'
-              }`}
-            >
-              {t.login}
-            </Link>
-          </div>
+            {user ? (
+              <>
+                <Link to="/profile" className={`hidden sm:block font-medium transition-colors duration-200 ${darkMode ? 'text-[#F8FAFC] hover:text-[#FF7A00]' : 'text-[#301947] hover:text-[#FF7A00]'}`}>
+                  Hola, {user.person?.firstName}
+                </Link>
+                <button onClick={logout} className="rounded-lg border border-red-400/20 bg-red-500/10 px-5 py-2 font-medium text-red-200 transition hover:bg-red-500/20">Salir</button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className={`font-medium transition-colors duration-200 ${darkMode ? 'text-[#F8FAFC] hover:text-[#FF7A00]' : 'text-[#301947] hover:text-[#FF7A00]'}`}>{t.login}</Link>
+                 <Link to="/register" className="rounded-lg bg-gradient-to-r from-[#3B82F6] to-[#A855F7] px-5 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] md:px-6 md:py-2.5">{t.register}</Link>
+               </>
+             )}
+           </div>
 
           {/* SECCIÓN HERO */}
           <section className="min-h-screen flex items-center justify-center px-6 md:px-12 py-20 relative overflow-hidden">
