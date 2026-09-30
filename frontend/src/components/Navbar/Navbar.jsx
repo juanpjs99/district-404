@@ -2,9 +2,11 @@ import { NavLink } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 import Button from "../Button/Button";
+import { useTheme } from '../../contexts/ThemeContext';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const { t } = useTheme();
 
   const navLinkClass = ({ isActive }) =>
     `transition-colors duration-300 ${
@@ -14,34 +16,31 @@ export default function Navbar() {
     }`;
 
   return (
-    <nav className="bg-slate-950 border-b border-slate-800 sticky top-0 z-50">
+    <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#0d0a14]/90 backdrop-blur-xl">
 
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
         <NavLink
           to="/"
-          className="text-2xl font-bold text-white tracking-wide"
+          className="flex items-center gap-3 text-xl font-black tracking-[.14em] text-white"
         >
-          District404
+          <span className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 text-xs tracking-normal">D4</span>
+          DISTRICT
         </NavLink>
 
         <div className="hidden md:flex items-center gap-8">
 
           <NavLink to="/" className={navLinkClass}>
-            Inicio
-          </NavLink>
-
-          <NavLink to="/projects" className={navLinkClass}>
-            Proyectos
-          </NavLink>
-
-          <NavLink to="/members" className={navLinkClass}>
-            Miembros
+            {t.home}
           </NavLink>
 
           <NavLink to="/blog" className={navLinkClass}>
-            Blog
+            {t.blog}
           </NavLink>
+
+          <NavLink to="/projects" className={navLinkClass}>Proyectos</NavLink>
+          <NavLink to="/members" className={navLinkClass}>Miembros</NavLink>
+          <NavLink to="/about" className={navLinkClass}>{t.about}</NavLink>
 
         </div>
 

@@ -4,17 +4,17 @@
  * tokens en requests protegidos por middleware de autenticación.
  */
 const jwt = require('jsonwebtoken');
+const { env } = require('../config/env');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 const JWT_EXPIRES_IN = '7d';
 
 const generateToken = (payload) => {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+  return jwt.sign(payload, env.JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 };
 
 const verifyToken = (token) => {
   try {
-    return jwt.verify(token, JWT_SECRET);
+    return jwt.verify(token, env.JWT_SECRET);
   } catch (error) {
     return null;
   }

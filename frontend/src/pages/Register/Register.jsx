@@ -1,129 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import AuthShell from '../../components/AuthShell/AuthShell';
 
-const Register = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+export default function Register() {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+  const [form, setForm] = useState({ firstName: '', firstSurname: '', email: '', username: '', password: '' });
+  const [error, setError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
-  const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem('theme');
-    return saved ? saved === 'dark' : true;
-  });
-
-  const [language, setLanguage] = useState(() => {
-    const saved = localStorage.getItem('language');
-    return saved ? saved : 'es';
-  });
-
-  const t = {
-    es: { 
-      themeLabel: darkMode ? 'Claro' : 'Oscuro', 
-      langLabel: 'ES', 
-      title: 'Registro', 
-      button: 'Registrarse',
-      backToHome: 'Volver al inicio',
-      alreadyHaveAccount: '¿Ya tienes cuenta?',
-      loginLink: 'Inicia sesión'
-    },
-    en: { 
-      themeLabel: darkMode ? 'Light' : 'Dark', 
-      langLabel: 'EN', 
-      title: 'Sign Up', 
-      button: 'Register',
-      backToHome: 'Back to Home',
-      alreadyHaveAccount: 'Already have an account?',
-      loginLink: 'Log in'
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError('');
+    setSubmitting(true);
+    try {
+      await register(form);
+      navigate('/login', { state: { registered: true } });
+    } catch (requestError) {
+      setError(requestError.response?.data?.message || 'No se pudo crear la cuenta.');
+    } finally {
+      setSubmitting(false);
     }
-  }[language];
-
-  useEffect(() => {
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
-  }, [darkMode]);
-
-  useEffect(() => {
-    localStorage.setItem('language', language);
-  }, [language]);
-
-  const theme = {
-    bg: darkMode ? 'bg-[#0D0A14]' : 'bg-[#F8FAFC]',
-    text: darkMode ? 'text-[#F8FAFC]' : 'text-[#301947]',
-    sidebarBg: darkMode ? 'linear-gradient(180deg, #1a1033 0%, #0D0A14 100%)' : 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%)',
   };
 
   return (
-    <div className={`min-h-screen ${theme.bg} ${theme.text} transition-colors duration-500`}>
-      {/* SIDEBAR */}
-      <aside
-        className={`fixed left-0 top-0 h-full z-50 transition-all duration-300 ${sidebarOpen ? 'w-48 md:w-64' : 'w-16 md:w-20'}`}
-        style={{
-          background: theme.sidebarBg,
-          borderRight: `1px solid ${darkMode ? 'rgba(168,85,247,0.15)' : 'rgba(59,130,246,0.15)'}`
-        }}
-      >
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className={`w-full h-20 flex items-center justify-center transition-colors ${darkMode ? 'hover:bg-white/5' : 'hover:bg-[#3B82F6]/5'}`}
-        >
-          <div className="flex flex-col gap-1.5">
-            <span className={`block w-6 h-0.5 transition-transform ${sidebarOpen ? 'rotate-45 translate-y-2' : ''}`} style={{ backgroundColor: '#3B82F6' }} />
-            <span className={`block w-6 h-0.5 transition-opacity ${sidebarOpen ? 'opacity-0' : ''}`} style={{ backgroundColor: '#3B82F6' }} />
-            <span className={`block w-6 h-0.5 transition-transform ${sidebarOpen ? '-rotate-45 -translate-y-2' : ''}`} style={{ backgroundColor: '#3B82F6' }} />
-          </div>
-        </button>
-
-        <div className="absolute bottom-6 left-0 right-0 flex flex-col items-center gap-3">
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className={`flex items-center justify-center transition-all duration-200 ${sidebarOpen ? 'w-[calc(100%-2rem)] px-4 py-3 rounded-xl gap-3' : 'w-10 h-10 md:w-12 md:h-12 rounded-xl'} ${darkMode ? 'bg-[#1a1033] hover:bg-[#2a1852]' : 'bg-[#DBEAFE] hover:bg-[#BFDBFE]'}`}
-          >
-            {darkMode ? <svg className="w-5 h-5 text-[#FF7A00]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg> : <svg className="w-5 h-5 text-[#301947]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>}
-            {sidebarOpen && <span className={`font-medium text-sm ${darkMode ? 'text-white' : 'text-[#301947]'}`}>{t.themeLabel}</span>}
-          </button>
-
-          <button
-            onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
-            className={`flex items-center justify-center transition-all duration-200 ${sidebarOpen ? 'w-[calc(100%-2rem)] px-4 py-3 rounded-xl gap-3' : 'w-10 h-10 md:w-12 md:h-12 rounded-xl'} ${darkMode ? 'bg-[#1a1033] hover:bg-[#2a1852]' : 'bg-[#DBEAFE] hover:bg-[#BFDBFE]'}`}
-          >
-            <svg className="w-5 h-5 text-[#3B82F6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" /></svg>
-            {sidebarOpen && <span className={`font-medium text-sm ${darkMode ? 'text-white' : 'text-[#301947]'}`}>{t.langLabel}</span>}
-          </button>
+    <AuthShell eyebrow="Join the signal" title="Crear cuenta" subtitle="Empieza como usuario del blog y comparte tus ideas con la comunidad.">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <label className="block text-sm font-medium text-slate-300">Nombre<input required value={form.firstName} onChange={(event) => setForm({ ...form, firstName: event.target.value })} className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none focus:border-blue-400/70" /></label>
+          <label className="block text-sm font-medium text-slate-300">Apellido<input required value={form.firstSurname} onChange={(event) => setForm({ ...form, firstSurname: event.target.value })} className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none focus:border-blue-400/70" /></label>
         </div>
-      </aside>
-
-      {/* CONTENIDO */}
-      <main className={`h-screen w-full flex items-center justify-center relative pl-16 md:pl-20 transition-all duration-300`}>
-        
-        {/* BOTÓN VOLVER AL INICIO */}
-        <div className="absolute top-6 left-20 md:left-24">
-            <Link to="/" className="text-slate-400 hover:text-blue-500 transition-colors flex items-center gap-2 font-medium text-sm md:text-base whitespace-nowrap">
-                <span className="text-lg">←</span> {t.backToHome}
-            </Link>
-        </div>
-
-        <div className="bg-[#1a1b26]/60 backdrop-blur-md border border-purple-500/20 shadow-[0_0_50px_rgba(79,70,229,0.15)] rounded-2xl p-6 md:p-8 w-full max-w-sm md:max-w-md mx-4">
-           <h2 className="text-2xl font-bold text-white text-center mb-6">
-             {t.title}
-           </h2>
-           
-           <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-             <input type="text" placeholder="Nombre" className="w-full bg-[#1e2030]/50 border border-slate-700/50 text-white rounded-lg px-4 py-3 outline-none focus:border-blue-500 transition-all text-sm" />
-             <input type="email" placeholder="Email" className="w-full bg-[#1e2030]/50 border border-slate-700/50 text-white rounded-lg px-4 py-3 outline-none focus:border-blue-500 transition-all text-sm" />
-             <input type="password" placeholder="Contraseña" className="w-full bg-[#1e2030]/50 border border-slate-700/50 text-white rounded-lg px-4 py-3 outline-none focus:border-blue-500 transition-all text-sm" />
-             
-             <button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg py-3 transition-all text-sm">
-               {t.button}
-             </button>
-           </form>
-
-           <p className="text-xs text-slate-400 text-center mt-5">
-             {t.alreadyHaveAccount} {' '}
-             <Link to="/login" className="text-blue-500 hover:underline cursor-pointer">
-               {t.loginLink}
-             </Link>
-           </p>
-        </div>
-      </main>
-    </div>
+        <label className="block text-sm font-medium text-slate-300">Email<input required type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} placeholder="tu@email.com" className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none focus:border-blue-400/70" /></label>
+        <label className="block text-sm font-medium text-slate-300">Usuario<input required value={form.username} onChange={(event) => setForm({ ...form, username: event.target.value })} placeholder="tu_apodo" className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none focus:border-blue-400/70" /></label>
+        <label className="block text-sm font-medium text-slate-300">Contraseña<input required minLength={8} type="password" value={form.password} onChange={(event) => setForm({ ...form, password: event.target.value })} placeholder="Mínimo 8 caracteres" className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none focus:border-blue-400/70" /></label>
+        {error && <p className="rounded-lg border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-300">{error}</p>}
+        <button disabled={submitting} className="w-full rounded-xl bg-[#ff7a00] py-3.5 font-bold text-white shadow-[0_0_25px_rgba(255,122,0,.18)] transition hover:-translate-y-0.5 hover:bg-[#e86b00] disabled:cursor-not-allowed disabled:opacity-50">{submitting ? 'Creando...' : 'Crear cuenta'}</button>
+        <p className="text-center text-sm text-slate-400">¿Ya tienes cuenta? <Link to="/login" className="font-semibold text-blue-300 hover:text-blue-200">Inicia sesión</Link></p>
+      </form>
+    </AuthShell>
   );
-};
-
-export default Register;
+}

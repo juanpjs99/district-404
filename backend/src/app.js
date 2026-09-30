@@ -7,12 +7,13 @@ const cors = require('cors');
 const apiRoutes = require('./routes/apiRoutes');
 const errorMiddleware = require('./middlewares/errorMiddleware');
 const { validateEnv } = require('./config/env');
+const { env } = require('./config/env');
 
 validateEnv();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: env.FRONTEND_ORIGIN }));
 app.use(express.json());
 
 app.get('/', (req, res) => {

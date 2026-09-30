@@ -11,7 +11,7 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token'));
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(Boolean(token));
 
   useEffect(() => {
     if (token) {
@@ -22,21 +22,19 @@ export const AuthProvider = ({ children }) => {
           setToken(null);
         })
         .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
     }
   }, [token]);
 
-  const login = async (UserName, Password) => {
-    const res = await api.post('/auth/login', { UserName, Password });
+  const login = async (username, password) => {
+    const res = await api.post('/auth/login', { username, password });
     localStorage.setItem('token', res.data.token);
     setToken(res.data.token);
     setUser(res.data.user);
     return res.data;
   };
 
-  const register = async (person, user) => {
-    const res = await api.post('/auth/register', { person, user });
+  const register = async (data) => {
+    const res = await api.post('/auth/register', data);
     return res.data;
   };
 
@@ -53,4 +51,5 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);
