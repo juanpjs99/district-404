@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import logotype from '../../assets/Element-corona.png'; 
-import guySpray from '../../assets/guy-spray.png';
+import guySpray from '../../assets/guy-soft-crew.png';
 import liquidWall from '../../assets/liquid-wall.png';
 
 const Home = () => {
@@ -236,17 +236,26 @@ const Home = () => {
 
           {/* SECCIÓN HERO */}
           <section className="min-h-screen flex items-center justify-center px-6 md:px-12 py-20 relative overflow-hidden">
-            <div className="absolute inset-0 overflow-hidden">
-              <div className={`absolute top-1/4 left-1/4 w-96 h-96 ${darkMode ? 'bg-[#A855F7]/10' : 'bg-[#A855F7]/15'} rounded-full blur-[128px]`} />
-              <div className={`absolute bottom-1/4 right-1/4 w-96 h-96 ${darkMode ? 'bg-[#3B82F6]/10' : 'bg-[#3B82F6]/15'} rounded-full blur-[128px]`} />
+           <div className="absolute inset-0 overflow-hidden">
+             <div className={`absolute top-1/4 left-1/4 w-96 h-96 ${darkMode ? 'bg-[#A855F7]/10' : 'bg-[#A855F7]/15'} rounded-full blur-[128px]`} />
+             <div className={`absolute bottom-1/4 right-1/4 w-96 h-96 ${darkMode ? 'bg-[#3B82F6]/10' : 'bg-[#3B82F6]/15'} rounded-full blur-[128px]`} />
+           </div>
+
+            {/* Marcas discretas de código y graffiti para dar textura al hero. */}
+            <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none z-0 font-mono select-none">
+              <span className="absolute left-[9%] top-[18%] -rotate-12 text-3xl md:text-5xl font-bold text-[#3B82F6]/25">&lt;/&gt;</span>
+              <span className="absolute right-[12%] top-[31%] rotate-6 text-xl md:text-3xl font-bold tracking-widest text-[#FF7A00]/30">{'{404}'}</span>
+              <span className="absolute left-[16%] bottom-[19%] -rotate-6 text-xs md:text-sm font-bold tracking-[0.45em] text-[#FF7A00]/30">SPRAY//</span>
+              <span className="absolute right-[24%] bottom-[14%] rotate-12 text-2xl md:text-4xl font-bold text-[#3B82F6]/25">#404</span>
+              <span className="absolute right-[31%] top-[18%] text-2xl font-bold tracking-widest text-[#FF7A00]/25">::</span>
             </div>
 
             <motion.div
               initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 0.8, x: 0 }}
+              animate={{ opacity: 0.95, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="absolute left-0 top-1/2 -translate-y-1/2 w-[180px] md:w-[250px] lg:w-[320px] h-auto z-0 pointer-events-none"
-              style={{ filter: 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.5)) drop-shadow(0 0 40px rgba(59, 130, 246, 0.3))' }}
+              className="absolute left-0 md:left-3 lg:left-8 top-1/2 -translate-x-[90px] -translate-y-1/2 w-[240px] sm:w-[290px] md:w-[390px] lg:w-[500px] xl:w-[560px] h-auto z-[1] pointer-events-none"
+              style={{ filter: 'drop-shadow(0 0 24px rgba(59, 130, 246, 0.55)) drop-shadow(0 0 52px rgba(255, 122, 0, 0.2))' }}
             >
               <img src={guySpray} alt="" className="mt-50 w-full h-auto object-contain" />
             </motion.div>

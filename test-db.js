@@ -2,7 +2,7 @@
 
 require("dotenv").config({ path: "./backend/.env" });
 
-const pool = require("./backend/database/base");
+const pool = require("./backend/src/config/database");
 
 async function testConnection() {
     try {
