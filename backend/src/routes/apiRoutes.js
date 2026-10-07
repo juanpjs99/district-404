@@ -11,11 +11,13 @@ const requireRoles = require('../middlewares/roleMiddleware');
 const profileRoutes = require('./profileRoutes');
 const memberRoutes = require('./memberRoutes');
 const projectRoutes = require('./projectRoutes');
+const projectMembersRoutes = require('./projectMembersRoutes');
 
 router.use('/auth', authRoutes);
 router.use('/profiles', profileRoutes);
 router.use('/admin/members', memberRoutes);
 router.use('/projects', projectRoutes);
+router.use('/projectsMembers', projectMembersRoutes);
 
 router.get('/admin/health', authMiddleware, requireRoles('superadmin'), (req, res) => {
   res.json({ message: 'Admin access granted' });

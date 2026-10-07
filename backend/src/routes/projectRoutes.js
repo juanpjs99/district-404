@@ -10,6 +10,6 @@ router.post('/', authMiddleware, requireRoles('member', 'superadmin'), ProjectCo
 router.patch('/:id', authMiddleware, requireRoles('member', 'superadmin'), ProjectController.update);
 router.delete('/:id', authMiddleware, requireRoles('member', 'superadmin'), ProjectController.remove);
 router.post('/:id/collaborators', authMiddleware, requireRoles('member', 'superadmin'), ProjectController.invite);
-router.post('/collaborations/:id/accept', authMiddleware, requireRoles('member', 'superadmin'), ProjectController.acceptInvitation);
-
+/*router.post('/collaborations/:id/accept', authMiddleware, requireRoles('member', 'superadmin'), ProjectController.acceptInvitation);
+*/
 module.exports = router;

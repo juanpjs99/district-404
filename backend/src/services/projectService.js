@@ -1,5 +1,5 @@
 const ProjectModel = require('../models/ProjectModel');
-const CollaborationModel = require('../models/CollaborationModel');
+const ProjectMembersModel = require('../models/ProjectMembersModel');
 
 const slugify = (value) => value.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
@@ -15,7 +15,7 @@ const ProjectService = {
   get: async (slug) => {
     const project = await ProjectModel.findBySlug(slug);
     if (!project) throw Object.assign(new Error('Project not found'), { statusCode: 404 });
-    project.collaborators = await CollaborationModel.listByProject(project.id);
+    project.ProjectMembersModel = await ProjectMembersModel.listByProject(project.id);
     return project;
   },
   create: async (user, data) => {
@@ -36,12 +36,12 @@ const ProjectService = {
   invite: async (user, id, data) => {
     const project = await ProjectModel.findById(id);
     assertProjectAccess(project, user);
-    return CollaborationModel.invite(id, data.userId, data.role, data.contribution);
+    return ProjectMembersModel.invite(id, data.userId, data.role, data.contribution);
   },
-  acceptInvitation: async (user, id) => {
-    const accepted = await CollaborationModel.accept(id, user.userId);
+  /*acceptInvitation: async (user, id) => {
+    const accepted = await ProjectMembersModel.accept(id, user.userId);
     if (!accepted) throw Object.assign(new Error('Invitation not found'), { statusCode: 404 });
-  }
+  }*/
 };
 
 module.exports = ProjectService;
